@@ -1,20 +1,27 @@
 import faker as fk
 from faker import Faker
 from random import randint, uniform
-import pandas as pd
+from pandas import DataFrame
+import faker_commerce
 
+#Instanciando a classe Faker.
 fake = Faker()
+
+#Adicionando o provider com nomes de produtos.
+fake.add_provider(faker_commerce.Provider)
+
 list_product = []
 i = 0
 
-while i < 500:
+#Loop para criação de uma lista com 150 produtos aleatórios.
+while i <= 150:
     ean = randint(100000000000000,999999999999999)
-    name = fake.name()
+    name_product = fake.ecommerce_name()
     value = round(uniform(0, 100),2)
-    list_product.append([ean,name,value])
-    print(list_product)
+    list_product.append([ean,name_product,value])
     i += 1
 
-df = pd.DataFrame(list_product, columns=["EAN","NAME","VALUE"])
+#Criando Dataframe dos produtos e gerando o arquivo products.csv.
+df = DataFrame(list_product, columns=["EAN","NAME","VALUE"])
 
-df.to_csv("products.csv", index = False)
+df.to_csv("back-end/fake-api/products.csv", index = False, lineterminator=None)

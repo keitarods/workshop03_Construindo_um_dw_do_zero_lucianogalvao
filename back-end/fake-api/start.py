@@ -1,13 +1,18 @@
 from fastapi import FastAPI
+from faker import Faker
+import pandas as pd
 
 app = FastAPI()
+fake = Faker()
+
+
 
 @app.get("/gerar_compra")
 
-async def gerar_compra():
+def gerar_compra():
     return {
-        "cliente": "Nome",
-        "creditcard": "Tipo do cartão",
+        "cliente": fake.name(),
+        "creditcard": fake.credit_card_provider(),
         "ean": "Código de barra do produto",
         "price": "Preço do produto",
         "Store": 11,

@@ -117,6 +117,20 @@ files = [
 python-dateutil = ">=2.4"
 
 [[package]]
+name = "faker-commerce"
+version = "1.0.3"
+description = "Provider for Faker which adds fake commerce product names, prices, categories and descriptions."
+optional = false
+python-versions = "*"
+files = [
+    {file = "faker-commerce-1.0.3.tar.gz", hash = "sha256:6eb0a5e7e9dcded86edf96980c56af63bc12f56c3ab860f88eb99a5b53c14073"},
+    {file = "faker_commerce-1.0.3-py3-none-any.whl", hash = "sha256:f76bfcac5ba17c68e15fd6d077d98fdff5087d65d015246db99d1b17efe4a3bd"},
+]
+
+[package.dependencies]
+faker = "*"
+
+[[package]]
 name = "fastapi"
 version = "0.109.2"
 description = "FastAPI framework, high performance, easy to learn, fast to code, ready for production"
@@ -1159,4 +1173,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "3.11.3"
-content-hash = "4e3a339d91abc0c96eb163b7ab833fc0387a079b85623e5e0aa2fbcd3849aed2"
+content-hash = "3993d9585e87f259e699e7eaf8028957057f543298b661a7e0c726aa606df4a2"
