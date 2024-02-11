@@ -24,4 +24,4 @@ while i <= 150:
 #Criando Dataframe dos produtos e gerando o arquivo products.csv.
 df = DataFrame(list_product, columns=["EAN","NAME","VALUE"])
 
-df.to_csv("back-end/fake-api/products.csv", index = False, lineterminator=None)
+df.to_csv("backend/fakeapi/products.csv", index = False, lineterminator=None)

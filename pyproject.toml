@@ -12,6 +12,7 @@ fastapi = {extras = ["all"], version = "^0.109.2"}
 faker = "^23.1.0"
 pandas = "^2.2.0"
 faker-commerce = "^1.0.3"
+requests = "^2.31.0"
 
 
 [build-system]
