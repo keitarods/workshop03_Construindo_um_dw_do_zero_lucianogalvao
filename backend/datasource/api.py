@@ -1,18 +1,33 @@
 import requests
 from contracts.schema import genericschema, Compraschema
+import pyarrow.parquet as pq
 from typing import List
+from pandas import DataFrame
+from io import BytesIO
+import datetime
+import os
+import time
 
 class APICollector:
-    def __init__ (self, schema):
+    def __init__ (self, schema, drive):
         self._schema = schema
-        self._aws = None
+        self._drive = drive
         self.buffer = None
+        self.localparquet = "../drive/dataapi/"
         return
     
     def start(self, param):
         response = self.getData(param)
         response = self.extractData(response)
-        return response
+        response = self.transformDf(response)
+        response = self.convertToParquet(response)
+        
+        if os.path.exists(self.localparquet):
+            self._drive.upload_dataset()
+            self.removeParquet()
+            return True
+        else:
+            return False
 
     def getData(self, param):
         response = None
@@ -33,9 +48,32 @@ class APICollector:
                 else:
                     index[key] = None
                 
-                result.append(index)
+            result.append(index)
 
         return result
     
-    def transformDf(self):
-        return
+    def transformDf(self, response):
+        result = DataFrame(response)
+
+        return result
+
+    def convertToParquet(self, response):
+        try:
+            print(os.getcwd())
+            response.to_parquet(f"{self.localparquet}{self.fileName()}")
+            print("Arquivo transformado com sucesso para formato parquet")
+        except Exception as e:
+            print("Erro ao transforma o arquivo para formato parquet")
+            self._buffer = None
+
+    def fileName(self):
+        data_atual = datetime.datetime.now().isoformat()
+        match = data_atual.split(".")
+        return f"api_response_compra_{match[0]}.parquet"
+    
+    def removeParquet(self):
+        if os.path.exists(self.localparquet):
+                for arquivo in os.listdir(self.localparquet):
+                    arquivo = os.path.join(self.localparquet, arquivo)
+                    if arquivo.endswith(".parquet"):
+                        os.remove(arquivo)
