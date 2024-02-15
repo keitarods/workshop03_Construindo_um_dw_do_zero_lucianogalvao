@@ -24,7 +24,7 @@ class APICollector:
         
         if os.path.exists(self.localparquet):
             self._drive.upload_dataset()
-            #self.removeParquet()
+            self.removeParquet()
             return True
         else:
             return False
