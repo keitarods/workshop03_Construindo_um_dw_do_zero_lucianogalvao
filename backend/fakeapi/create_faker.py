@@ -17,7 +17,6 @@ def criar_products(param: int):
 #Loop para criação de uma lista com 150 produtos aleatórios.
     list_product = []
     i = 0
-    print(f"aquiiiiiiii {os.getcwd()}")
     while i <= param:
         ean = randint(100000000000000,999999999999999)
         name_product = fake.ecommerce_name()
@@ -29,8 +28,8 @@ def criar_products(param: int):
     df = DataFrame(list_product, columns=["EAN","NAME","VALUE"])
 
     #Verifica se o arquivo products.csv ja existe
-    if not os.path.exists("../fakeapi/products.csv"):
-        df.to_csv("../fakeapi/products.csv", index = False, lineterminator=None)
+    if not os.path.exists("./backend/fakeapi/products.csv"):
+        df.to_csv("./backend/fakeapi/products.csv", index = False, lineterminator=None)
         print("Arquivo products.csv criado")
     else:
         print("O arquivo products.csv ja existe")

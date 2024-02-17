@@ -13,7 +13,7 @@ class APICollector:
         self._schema = schema
         self._drive = drive
         self.buffer = None
-        self.localparquet = "../drive/dataapi/"
+        self.localparquet = "./backend/drive/dataapi/"
         return
     
     def start(self, param):
@@ -63,7 +63,7 @@ class APICollector:
             response.to_parquet(f"{self.localparquet}{self.fileName()}")
             print("Arquivo transformado com sucesso para formato parquet")
         except Exception as e:
-            print("Erro ao transforma o arquivo para formato parquet")
+            print(f"Erro ao transforma o arquivo para formato parquet")
             self._buffer = None
 
     def fileName(self):

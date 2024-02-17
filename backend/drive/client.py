@@ -9,13 +9,12 @@ load_dotenv(dotenv_path=".env.prod")
 
 class DriveClient:
     def __init__(self):
-        self.local = os.chdir("./backend/drive")
         self.SCOPES = ['https://www.googleapis.com/auth/drive']
         self.SERVICE_ACCOUNT_FILE = 'service_account.json'
         self.creds = self.authenticate()
         self.PARENT_FOLDER_ID = os.getenv("URL_PATH")
         self.service = build('drive', 'v3', credentials=self.creds)
-        self.localparquet = "../drive/dataapi/"
+        self.localparquet = "./backend/drive/dataapi/"
 
     def authenticate(self):
         creds = service_account.Credentials.from_service_account_file(self.SERVICE_ACCOUNT_FILE, scopes = self.SCOPES)
