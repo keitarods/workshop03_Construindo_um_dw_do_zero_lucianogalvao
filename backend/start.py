@@ -15,11 +15,10 @@ def apicollector(schema, drive, repeat):
     print("Processo executado")
     return response
 
-
 criar_products(100)
 
 # Esta parte do código define um agendamento usando a biblioteca schedule. Ele especifica que a função apicollector deve ser executada a cada 1 minuto.
-schedule.every(1).minutes.do(apicollector, schema, drive, 50)
+schedule.every(0.1).minutes.do(apicollector, schema, drive, 50)
 
 #Loop que define enquanto for == True, o código será executado baseado no time setado no schedule
 while True:
