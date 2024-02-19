@@ -12,22 +12,15 @@ class APICollector:
     def __init__ (self, schema, drive):
         self._schema = schema
         self._drive = drive
-        self.buffer = None
-        self.localparquet = "./backend/drive/dataapi/"
-        return
-    
+        self._buffer = None
+
     def start(self, param):
         response = self.getData(param)
         response = self.extractData(response)
         response = self.transformDf(response)
-        response = self.convertToParquet(response)
-        
-        if os.path.exists(self.localparquet):
-            self._drive.upload_dataset()
-            self.removeParquet()
-            return True
-        else:
-            return False
+
+        self.convertToParquet(response)
+        self._drive.upload_dataset(self._buffer, f"{self.fileName()}")
 
     def getData(self, param):
         response = None
@@ -59,9 +52,9 @@ class APICollector:
 
     def convertToParquet(self, response):
         try:
-            print(os.getcwd())
-            response.to_parquet(f"{self.localparquet}{self.fileName()}")
+            self._buffer = BytesIO()
             print("Arquivo transformado com sucesso para formato parquet")
+            return response.to_parquet(self._buffer)
         except Exception as e:
             print(f"Erro ao transforma o arquivo para formato parquet")
             self._buffer = None
@@ -70,10 +63,3 @@ class APICollector:
         data_atual = datetime.datetime.now().isoformat()
         match = data_atual.split(".")
         return f"api_response_compra_{match[0]}.parquet"
-    
-    def removeParquet(self):
-        if os.path.exists(self.localparquet):
-                for arquivo in os.listdir(self.localparquet):
-                    arquivo = os.path.join(self.localparquet, arquivo)
-                    if arquivo.endswith(".parquet"):
-                        os.remove(arquivo)
